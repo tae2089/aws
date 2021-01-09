@@ -1,5 +1,3 @@
 .vscode/settings.json
 aws/
-ec2/.git/
-cdk-serverless-get-started/.git
 
