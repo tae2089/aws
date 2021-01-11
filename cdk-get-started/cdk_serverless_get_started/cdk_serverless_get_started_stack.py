@@ -9,6 +9,12 @@ class CdkServerlessGetStartedStack(core.Stack):
         
         table = aws_dynamodb.Table(self,"mapping",
                     partition_key= aws_dynamodb.Attribute(name="id",type=aws_dynamodb.AttributeType.STRING))
+
+
+
+
+
+                    
         # "VPC" ->> vpc이름 ,
         # VPC
         vpc = ec2.Vpc(self, "VPC",
