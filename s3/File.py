@@ -4,7 +4,6 @@ import re
 
 
 class s3:
-
     def __init__(self, profile_name):
         # S3 Client 생성
         self.session = boto3.Session(profile_name=profile_name)
@@ -41,12 +40,12 @@ class s3:
         server_file_name = filename
         if fileurl is not None:
             server_file_name = fileurl+"/"+filename
-            try:
-                self.s3.upload_file(filename, bucketname, server_file_name)
-                print("successful upload file")
-            except Exception as e:
-                print("failed upload file")
-                print(e)
+        try:
+            self.s3.upload_file(filename, bucketname, server_file_name)
+            print("successful upload file")
+        except Exception as e:
+            print("failed upload file")
+            print(e)
 
     # prefix ex) image/test
     def get_buket_files_name(self, bucketname, prefix=None, toReturn=False):
@@ -78,6 +77,8 @@ class s3:
     def download_buket_files(self, bucketname, prefix=None, dir=None, allfiles=True):
         if prefix is None:
             prefix = ""
+        else:
+            prefix += "/"
 
         if dir is None:
             dir = ""
@@ -96,6 +97,17 @@ class s3:
             Prefix=prefix
         )
         self.__download_data(response_iterator, bucketname, dir, prefix_cnt)
+
+    def delete_file(self, bucket_name, filename, fileurl=None):
+        server_file_name = filename
+        if fileurl is not None:
+            server_file_name = fileurl+"/"+filename
+        try:
+            self.s3.delete_object(Bucket=bucket_name, Key=server_file_name)
+            print("successful delete file")
+        except Exception as e:
+            print("failed delete file")
+            print(e)
 
     def __download_data(self, response_iterator, bucketname, dir, prefix_cnt):
         try:
