@@ -42,7 +42,12 @@ class s3:
             server_file_name = fileurl+"/"+filename
         try:
             self.s3.upload_file(filename, bucketname, server_file_name)
+            location = self.s3.get_bucket_location(Bucket=bucketname)[
+                'LocationConstraint']
+            url = "https://s3-%s.amazonaws.com/%s/%s" % (
+                location, bucketname, server_file_name)
             print("successful upload file")
+            return url
         except Exception as e:
             print("failed upload file")
             print(e)
