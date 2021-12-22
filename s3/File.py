@@ -1,7 +1,7 @@
 import boto3
 import os
 import re
-
+from operator import itemgetter
 
 class s3:
     def __init__(self, profile_name):
@@ -110,6 +110,26 @@ class s3:
         try:
             self.s3.delete_object(Bucket=bucket_name, Key=server_file_name)
             print("successful delete file")
+        except Exception as e:
+            print("failed delete file")
+            print(e)
+
+
+
+    def get_version_file(self,bucket_name,filename,fileurl=None):
+        server_file_name = filename
+        if fileurl is not None:
+            server_file_name = fileurl+"/"+filename
+        try:
+            versions = self.s3.list_object_versions (Bucket = bucket_name, Prefix = server_file_name)
+            versions = versions.get('Versions')
+            if len(versions) == 0:
+                return []
+            elif len(versions) == 1:
+                return versions
+            else:
+                versions = sorted(versions,key= itemgetter("LastModified"),reverse=True)
+                return versions[1]
         except Exception as e:
             print("failed delete file")
             print(e)

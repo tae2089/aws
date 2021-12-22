@@ -7,9 +7,10 @@ if __name__ == '__main__':
     buckname = ""
     filename = ""
     # 버킷 업로드
-    url = client.upload_bucket_data(
-        bucketname=buckname, filename=filename)
-    print(url)
+    # url = client.upload_bucket_data(
+    #     bucketname=buckname, filename=filename)
+    # print(url)
+    client.get_version_file(bucket_name=buckname,filename=filename)
     # 버킷 다운로드
     # client.download_bucket_file(
     #     bucketname=buckname, key="network1.pdf", fileurl="image")
